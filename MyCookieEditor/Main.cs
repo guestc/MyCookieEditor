@@ -14,6 +14,7 @@ namespace MyCookieEditor
     {
 
         TextBox _editor;
+        ListViewItem.ListViewSubItem _subitem;
 
         System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
@@ -49,7 +50,7 @@ namespace MyCookieEditor
         private void _editor_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter) {
-                var info = listView1.HitTest(_editor.Location).SubItem;
+                var info = listView1.HitTest(_subitem.Bounds.Location).SubItem;
                 if (info != null) {
                     info.Text = _editor.Text;
                     _editor.Visible = false;
@@ -117,6 +118,7 @@ namespace MyCookieEditor
         {
             var info = listView1.HitTest(e.Location).SubItem;
             if (info != null) {
+                _subitem = info;
                 Point ps = info.Bounds.Location;
                 ps.X = 2;
                 _editor.Location = ps;
@@ -132,7 +134,7 @@ namespace MyCookieEditor
         {
             if (_editor.Visible) { 
                 var target = listView1.HitTest(e.Location).SubItem;
-                var info = listView1.HitTest(_editor.Location).SubItem;
+                var info = listView1.HitTest(_subitem.Bounds.Location).SubItem;
                 if (target != info) {
                     _editor.Visible = false;
                 }
